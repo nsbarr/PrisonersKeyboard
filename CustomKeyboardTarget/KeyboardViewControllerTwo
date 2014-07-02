@@ -1,0 +1,351 @@
+//
+//  KeyboardViewController.swift
+//  CustomKeyboardTarget
+//
+//  Created by Nicholas Barr on 6/5/14.
+//  Copyright (c) 2014 Nicholas Barr. All rights reserved.
+//
+
+import UIKit
+import QuartzCore
+
+
+
+
+class KeyboardViewController: UIInputViewController {
+    
+    
+        
+    @IBOutlet var wButton: UIButton
+    @IBOutlet var eButton: UIButton
+    @IBOutlet var rButton: UIButton
+    @IBOutlet var uButton: UIButton
+    @IBOutlet var iButton: UIButton
+    @IBOutlet var oButton: UIButton
+    @IBOutlet var aButton: UIButton
+    @IBOutlet var sButton: UIButton
+    @IBOutlet var zButton: UIButton
+    @IBOutlet var xButton: UIButton
+    @IBOutlet var cButton: UIButton
+    @IBOutlet var vButton: UIButton
+    @IBOutlet var nButton: UIButton
+    @IBOutlet var mButton: UIButton
+    @IBOutlet var periodButton: UIButton
+    @IBOutlet var backButton: UIButton
+    @IBOutlet var spaceButton: UIButton
+    @IBOutlet var returnButton: UIButton
+    @IBOutlet var globeButton: UIButton
+    @IBOutlet var decorationButton: UIButton
+
+
+
+
+
+
+    init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+     
+    }
+
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+    
+        // Add custom view sizing constraints here
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+    
+        // Perform custom UI setup here
+        //216x320
+        
+//        self.nextKeyboardButton = UIButton.buttonWithType(.System) as UIButton
+//    
+//        self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
+//        self.nextKeyboardButton.sizeToFit()
+//        self.nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+//    
+        
+//        self.nextKeyboardButton.frame = CGRectMake(150, 10, 50, 100)
+//
+//        
+//        self.view.addSubview(self.nextKeyboardButton)
+        
+
+
+      
+        
+        
+        let fontStyle = UIFont(name: "Courier", size: 32)
+        let red = UIColor .redColor()
+        let black = UIColor .blackColor()
+        let bg = UIImage(named:"white_sand.png")
+        self.inputView.backgroundColor = red
+        
+
+        
+
+        //backspace globe space  return
+        
+      
+        
+        //we have a 5 x 4 grid
+        let col1:CGFloat = 4
+        let col2:CGFloat = 68
+        let col3:CGFloat = 132
+        let col4:CGFloat = 196
+        let col5:CGFloat = 260
+        
+        let row1:CGFloat = 4
+        let row2:CGFloat = 58
+        let row3:CGFloat = 112
+        let row4:CGFloat = 166
+        
+        // button dimensions
+        
+        let buttonWidth:CGFloat = 56
+        let buttonHeight:CGFloat = 46
+        let buttonRoundedness:CGFloat = 4
+        
+        // starting positions
+        var xPosition:CGFloat = 4
+
+        
+        //add buttons to self? don't get this. when i put it inside the generateButton func it complains about "let"
+        
+        self.aButton = UIButton.buttonWithType(.System) as UIButton
+        self.eButton = UIButton.buttonWithType(.System) as UIButton
+        self.iButton = UIButton.buttonWithType(.System) as UIButton
+        self.oButton = UIButton.buttonWithType(.System) as UIButton
+        self.uButton = UIButton.buttonWithType(.System) as UIButton
+        self.cButton = UIButton.buttonWithType(.System) as UIButton
+        self.mButton = UIButton.buttonWithType(.System) as UIButton
+        self.nButton = UIButton.buttonWithType(.System) as UIButton
+        self.rButton = UIButton.buttonWithType(.System) as UIButton
+        self.sButton = UIButton.buttonWithType(.System) as UIButton
+        self.vButton = UIButton.buttonWithType(.System) as UIButton
+        self.wButton = UIButton.buttonWithType(.System) as UIButton
+        self.xButton = UIButton.buttonWithType(.System) as UIButton
+        self.zButton = UIButton.buttonWithType(.System) as UIButton
+        self.periodButton = UIButton.buttonWithType(.System) as UIButton
+        self.decorationButton = UIButton.buttonWithType(.System) as UIButton
+        
+        //aeiou
+        //cmnrs
+        //vwxz.
+        
+        
+        var arrayOfButtons: UIButton[] = [self.aButton, self.eButton, self.iButton, self.oButton, self.uButton, self.cButton, self.mButton, self.nButton, self.rButton, self.sButton, self.vButton, self.wButton, self.xButton, self.zButton, self.periodButton]
+        var rows = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+            ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+            ["z", "x", "c", "v", "b", "n", "m"]]
+        
+        
+        // button generating function
+        
+        //row 1
+        // 1 -> 1
+        // 2 -> 2
+        // 3 -> 3
+        // 4 -> 4
+        // 5 -> 5
+       // 6 -> 1
+        // 7 -> 2
+    
+        
+        //generate the buttons
+        
+
+
+        for var i = 0; i < 15; ++i {
+            
+            
+            func generateButton(buttonTitle:String, thisButton:UIButton) -> UIButton {
+                
+                var rowNumber = (i / 5)
+                var colNumber = (i % 5)
+                
+                var thisButtonYPosition = 4 + rowNumber * 54 // determine row by dividing by elements per row
+                var thisButtonXPosition = 4 + colNumber * 64 // determine column by taking remainder
+                
+                var xPositionFloat:CGFloat = CGFloat(thisButtonXPosition)
+                var yPositionFloat:CGFloat = CGFloat(thisButtonYPosition)
+
+                thisButton.setTitle(NSLocalizedString(buttonTitle, comment: "Title for 'foo' button"), forState: .Normal)
+                thisButton.titleLabel.font = fontStyle
+               // thisButton.sizeToFit()
+              //  thisButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+                thisButton.addTarget(self, action: "outputString:", forControlEvents: .TouchUpInside)
+                thisButton.frame = CGRectMake(xPositionFloat, yPositionFloat, 30, 46)
+                thisButton.tag = find(arrayofLetters, buttonTitle)! //lol whut
+                thisButton.layer.cornerRadius = 8
+                thisButton.layer.masksToBounds = false
+                thisButton.clipsToBounds = false
+                thisButton.layer.shadowColor = black.CGColor
+                thisButton.layer.shadowOpacity = 0.8
+                thisButton.layer.shadowRadius = 12
+                thisButton.layer.shadowOffset = CGSizeMake(12.0, 12.0)
+                thisButton.sizeThatFits(CGSize(width: 200,height: 200))
+                thisButton.setTitleColor(black, forState: .Normal)
+                thisButton.setTitleShadowColor(black, forState: .Normal)
+                thisButton.setBackgroundImage(bg, forState: .Normal)
+                
+                self.decorationButton.frame = CGRectMake(xPositionFloat, yPositionFloat, 30, 30)
+                self.decorationButton.sizeToFit()
+                self.decorationButton.layer.cornerRadius = 20
+                self.decorationButton.sizeThatFits(CGSize(width: 200,height: 200))
+                self.decorationButton.backgroundColor = UIColor.whiteColor()
+                self.inputView.addSubview(decorationButton)
+                
+
+                self.inputView.addSubview(thisButton)
+                
+                return thisButton
+            }
+            
+            generateButton(arrayofLetters[i], arrayOfButtons[i])
+        }
+        
+        
+        
+        
+        
+        
+        //ROW 4
+        
+        //backspace
+        self.backButton = UIButton.buttonWithType(.System) as UIButton
+        self.backButton.setTitle(NSLocalizedString("<—", comment: "Title for 'foo' button"), forState: .Normal)
+        self.backButton.titleLabel.font = fontStyle
+        self.backButton.sizeToFit()
+        self.backButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.backButton.addTarget(self, action: "outputStringBack", forControlEvents: .TouchUpInside)
+        self.backButton.frame = CGRectMake(4, 166, 56, 46)
+        
+        self.backButton.layer.cornerRadius = 4
+        self.backButton.clipsToBounds = true
+        self.backButton.sizeThatFits(CGSize(width: 200,height: 200))
+        self.backButton.setTitleColor(red, forState: .Normal)
+        self.backButton.setTitleShadowColor(black, forState: .Normal)
+        self.backButton.setBackgroundImage(bg, forState: .Normal)
+        
+        self.inputView.addSubview(self.backButton)
+        
+        //globe
+        self.globeButton = UIButton.buttonWithType(.System) as UIButton
+        self.globeButton.setTitle(NSLocalizedString("( )", comment: "Title for 'foo' button"), forState: .Normal)
+        self.globeButton.titleLabel.font = fontStyle
+        self.globeButton.sizeToFit()
+        self.globeButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.globeButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
+        self.globeButton.frame = CGRectMake(68, 166, 56, 46)
+        
+        self.globeButton.layer.cornerRadius = 4
+        self.globeButton.clipsToBounds = true
+        self.globeButton.sizeThatFits(CGSize(width: 200,height: 200))
+        self.globeButton.setTitleColor(red, forState: .Normal)
+        self.globeButton.setTitleShadowColor(black, forState: .Normal)
+        self.globeButton.setBackgroundImage(bg, forState: .Normal)
+        
+        self.inputView.addSubview(self.globeButton)
+        
+        //space
+        self.spaceButton = UIButton.buttonWithType(.System) as UIButton
+        self.spaceButton.setTitle(NSLocalizedString("␣", comment: "Title for 'foo' button"), forState: .Normal)
+        self.spaceButton.titleLabel.font = fontStyle
+        self.spaceButton.sizeToFit()
+        self.spaceButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.spaceButton.addTarget(self, action: "outputStringSpace", forControlEvents: .TouchUpInside)
+        self.spaceButton.frame = CGRectMake(132, 166, 56, 46)
+        
+        self.spaceButton.layer.cornerRadius = 4
+        self.spaceButton.clipsToBounds = true
+        self.spaceButton.sizeThatFits(CGSize(width: 200,height: 200))
+        self.spaceButton.setTitleColor(red, forState: .Normal)
+        self.spaceButton.setTitleShadowColor(black, forState: .Normal)
+        self.spaceButton.setBackgroundImage(bg, forState: .Normal)
+        
+        self.inputView.addSubview(self.spaceButton)
+        
+        //return
+        self.returnButton = UIButton.buttonWithType(.System) as UIButton
+        self.returnButton.setTitle(NSLocalizedString("↩", comment: "Title for 'foo' button"), forState: .Normal)
+        self.returnButton.titleLabel.font = fontStyle
+        self.returnButton.sizeToFit()
+        self.returnButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.returnButton.addTarget(self, action: "outputStringReturn", forControlEvents: .TouchUpInside)
+        self.returnButton.frame = CGRectMake(196, 166, 56, 46)
+        
+        self.returnButton.layer.cornerRadius = 4
+        self.returnButton.clipsToBounds = true
+        self.returnButton.sizeThatFits(CGSize(width: 200,height: 200))
+        self.returnButton.setTitleColor(red, forState: .Normal)
+        self.returnButton.setTitleShadowColor(black, forState: .Normal)
+        self.returnButton.setBackgroundImage(bg, forState: .Normal)
+        
+        self.inputView.addSubview(self.returnButton)
+        
+        
+        
+
+
+
+ 
+        //wtf is this
+       // var nextKeyboardButtonLeftSideConstraint = NSLayoutConstraint(item: self.nextKeyboardButton, attribute: .Left, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 0.0)
+      //  var nextKeyboardButtonBottomConstraint = NSLayoutConstraint(item: self.nextKeyboardButton, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+      //  self.view.addConstraints([nextKeyboardButtonLeftSideConstraint, nextKeyboardButtonBottomConstraint])
+    }
+    
+    var arrayofLetters = ["a", "e", "i", "o", "u", "c", "m", "n", "r", "s", "v", "w", "x", "z", "."]
+
+    func outputString(sender:UIButton!) {
+        var dunoWhat = self.textDocumentProxy as UITextDocumentProxy
+        var buttonIndex = sender.tag
+        var letterToOutput = arrayofLetters[buttonIndex]
+        dunoWhat.insertText(letterToOutput)
+    }
+
+    func outputStringBack() {
+        var dunoWhat = self.textDocumentProxy as UITextDocumentProxy
+        dunoWhat.deleteBackward()
+    }
+    func outputStringSpace() {
+        var dunoWhat = self.textDocumentProxy as UITextDocumentProxy
+        dunoWhat.insertText(" ")
+    }
+    func outputStringReturn() {
+        var dunoWhat = self.textDocumentProxy as UITextDocumentProxy
+        dunoWhat.insertText("\n")
+    }
+    
+
+
+
+    
+
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated
+    }
+
+    override func textWillChange(textInput: UITextInput) {
+        // The app is about to change the document's contents. Perform any preparation here.
+    }
+
+    override func textDidChange(textInput: UITextInput) {
+        // The app has just changed the document's contents, the document context has been updated.
+    
+        var textColor: UIColor
+        var proxy = self.textDocumentProxy as UITextDocumentProxy
+        if proxy.keyboardAppearance == UIKeyboardAppearance.Dark {
+            textColor = UIColor.whiteColor()
+        } else {
+            textColor = UIColor.blackColor()
+        }
+    //    self.nextKeyboardButton.setTitleColor(textColor, forState: .Normal)
+    }
+
+}
